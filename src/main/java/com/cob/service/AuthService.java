@@ -1,6 +1,7 @@
 package com.cob.service;
 
 import com.cob.entity.UserEntity;
+import com.cob.mapper.UserMapper;
 import com.cob.model.UserDto;
 import com.cob.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -8,15 +9,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-    private final UserRepository cobUserRepository;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public AuthService(UserRepository cobUserRepository) {
-        this.cobUserRepository = cobUserRepository;
+    public AuthService(UserRepository userRepository, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
-    public String registerUser(UserDto cobUser){
-        UserEntity cobUserEntity = new UserEntity(cobUser.getUserName(),cobUser.getPassword());
-        cobUserRepository.save(cobUserEntity);
-        return "Saved Successfully";
+    public String registerUser(UserDto userDto){
+       // UserEntity cobUserEntity = new UserEntity(cobUser.getUserName(),cobUser.getPassword());
+       userRepository.save(userMapper.toEntity(userDto));
+       return "Saved Successfully";
     }
 }
