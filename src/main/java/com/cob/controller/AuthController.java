@@ -1,11 +1,10 @@
 package com.cob.controller;
 
-import com.cob.model.CobUser;
+import com.cob.model.UserDto;
 import com.cob.model.TokenDetails;
 import com.cob.service.AuthService;
 import com.cob.util.JwtUtil;
 import io.jsonwebtoken.Claims;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +21,7 @@ public class AuthController {
     }
 
     @PostMapping("/register-user")
-    public ResponseEntity<String> registerUser(@RequestBody CobUser cobUser){
+    public ResponseEntity<String> registerUser(@RequestBody UserDto cobUser){
         String response = authService.registerUser(cobUser);
         return ResponseEntity.ok(response);
     }

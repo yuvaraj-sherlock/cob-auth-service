@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "COB_USER")
-public class CobUserEntity {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,7 @@ public class CobUserEntity {
     private String userName;
     private String password;
 
-    public CobUserEntity(String userName, String password) {
+    public UserEntity(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }
