@@ -4,6 +4,7 @@ import com.cob.entity.UserEntity;
 import com.cob.mapper.UserMapper;
 import com.cob.model.UserDto;
 import com.cob.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,9 +18,8 @@ public class AuthService {
         this.userMapper = userMapper;
     }
 
-    public String registerUser(UserDto userDto){
-       // UserEntity cobUserEntity = new UserEntity(cobUser.getUserName(),cobUser.getPassword());
-       userRepository.save(userMapper.toEntity(userDto));
-       return "Saved Successfully";
+    public String registerUser(UserDto userDto) {
+        userRepository.save(userMapper.toEntity(userDto));
+        return "Saved Successfully";
     }
 }
