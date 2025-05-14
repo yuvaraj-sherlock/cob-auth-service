@@ -18,6 +18,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("authorities", "admin")
+                .setIssuer("COB-Portal")
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour
                 .signWith(key, SignatureAlgorithm.HS256)

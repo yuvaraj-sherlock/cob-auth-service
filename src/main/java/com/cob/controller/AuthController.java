@@ -3,8 +3,6 @@ package com.cob.controller;
 import com.cob.model.UserDto;
 import com.cob.model.TokenDetails;
 import com.cob.service.AuthService;
-import com.cob.util.JwtUtil;
-import io.jsonwebtoken.Claims;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,25 +10,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final JwtUtil jwtUtil;
     private final AuthService authService;
 
-    public AuthController(JwtUtil jwtUtil, AuthService authService) {
-        this.jwtUtil = jwtUtil;
+    public AuthController(AuthService authService) {
         this.authService = authService;
     }
 
     @PostMapping("/register-user")
-    public ResponseEntity<String> registerUser(@RequestBody UserDto userDto){
-        String response = authService.registerUser(userDto);
+    public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto){
+        UserDto response = authService.registerUser(userDto);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/generate")
     public ResponseEntity<TokenDetails> generateToken(){
-        String token = jwtUtil.generateToken("Yuvaraj");
-        Claims claims = jwtUtil.extractClaims(token);
-        TokenDetails tokenDetails = new TokenDetails(token,claims.getExpiration(),claims.getIssuer());
+        TokenDetails tokenDetails = authService.generateTokenDetails();
         return ResponseEntity.ok(tokenDetails);
     }
 }
