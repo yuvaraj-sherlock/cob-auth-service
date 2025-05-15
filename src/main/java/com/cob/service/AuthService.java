@@ -1,6 +1,7 @@
 package com.cob.service;
 
 import com.cob.entity.UserEntity;
+import com.cob.exception.UserNotFoundException;
 import com.cob.mapper.UserMapper;
 import com.cob.model.TokenDetails;
 import com.cob.model.UserDto;
@@ -42,13 +43,10 @@ public class AuthService {
         return tokenDetails;
     }
 
-    public boolean isValidUser(UserDto userDto) {
-        if (userDto == null || userDto.getUserName() == null || userDto.getPassword() == null) {
-            return false;
-        }
+    public boolean isValidUser(UserDto userDto) throws UserNotFoundException {
         UserEntity userEntity = userRepository.findByUserName(userDto.getUserName());
         if (userEntity == null || userEntity.getPassword() == null) {
-            return false;
+            throw new UserNotFoundException("User not found!");
         }
         return passwordEncoder.matches(userDto.getPassword(), userEntity.getPassword());
     }
