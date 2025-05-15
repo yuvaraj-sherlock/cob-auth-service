@@ -7,6 +7,8 @@ import com.cob.model.UserDto;
 import com.cob.repository.UserRepository;
 import com.cob.util.JwtUtil;
 import io.jsonwebtoken.Claims;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +17,9 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     public AuthService(JwtUtil jwtUtil, UserRepository userRepository, UserMapper userMapper) {
         this.jwtUtil = jwtUtil;
@@ -27,8 +32,8 @@ public class AuthService {
        return userMapper.toDto(userEntity);
     }
 
-    public TokenDetails generateTokenDetails() {
-        String token = jwtUtil.generateToken("Yuvaraj");
+    public TokenDetails generateTokenDetails(UserDto userDto) {
+        String token = jwtUtil.generateToken(userDto.getUserName());
         Claims claims = jwtUtil.extractClaims(token);
         TokenDetails tokenDetails = new TokenDetails();
         tokenDetails.setToken(token);
@@ -36,4 +41,16 @@ public class AuthService {
         tokenDetails.setExpireAt(claims.getExpiration());
         return tokenDetails;
     }
+
+    public boolean isValidUser(UserDto userDto) {
+        if (userDto == null || userDto.getUserName() == null || userDto.getPassword() == null) {
+            return false;
+        }
+        UserEntity userEntity = userRepository.findByUserName(userDto.getUserName());
+        if (userEntity == null || userEntity.getPassword() == null) {
+            return false;
+        }
+        return passwordEncoder.matches(userDto.getPassword(), userEntity.getPassword());
+    }
+
 }
