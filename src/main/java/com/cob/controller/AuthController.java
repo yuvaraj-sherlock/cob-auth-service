@@ -34,8 +34,10 @@ public class AuthController {
             tokenDetails = authService.generateTokenDetails(userDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(tokenDetails);
         }
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(),
+                "The given credentials are not valid");
         return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .body(new ErrorResponse(HttpStatus.NOT_FOUND.value(),"The given credentials are not valid"));
+                    .body(errorResponse);
     }
 }
