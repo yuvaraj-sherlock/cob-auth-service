@@ -12,16 +12,16 @@ public class UserMapper {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    public UserDto toDto(UserEntity userEntity){
-        UserDto userDto = new UserDto();
-        userDto.setUserName(userEntity.getUserName());
-        userDto.setPassword(userEntity.getPassword());
-        return userDto;
+    public UserDto toDto(UserEntity userEntity) {
+        return UserDto.builder()
+                .userName(userEntity.getUserName())
+                .password(userEntity.getPassword())
+                .build();
     }
     public UserEntity toEntity(UserDto userDto){
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUserName(userDto.getUserName());
-        userEntity.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        return userEntity;
+        return UserEntity.builder()
+                .userName(userDto.getUserName())
+                .password(passwordEncoder.encode(userDto.getPassword()))
+                .build();
     }
 }
