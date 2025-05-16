@@ -46,4 +46,7 @@ public class AuthService {
         return passwordEncoder.matches(userDto.getPassword(), userEntity.getPassword());
     }
 
+    public boolean validateToken(String token) {
+        return jwtUtil.validateToken(token);
+    }
 }

@@ -41,4 +41,14 @@ public class JwtUtil {
         tokenDetails.setExpireAt(claims.getExpiration());
         return tokenDetails;
     }
+
+    public boolean validateToken(String token) {
+        try{
+            Claims claims = extractClaims(token);
+            return claims.getExpiration().after(new Date());
+        }catch (JwtException | IllegalArgumentException e) {
+            // Signature invalid, expired, malformed, etc.
+            return false;
+        }
+    }
 }

@@ -40,4 +40,19 @@ public class AuthController {
                     .status(HttpStatus.NOT_FOUND)
                     .body(errorResponse);
     }
+
+    @GetMapping("/validate-token")
+    public ResponseEntity<String> validateToken(@RequestHeader("Authorization") String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Missing or invalid Authorization header");
+        }
+        String token = authHeader.substring(7).trim();// remove "Bearer " and trim spaces
+        boolean isValid = authService.validateToken(token);
+        if (isValid) {
+            return ResponseEntity.ok("Token is Valid ");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token is invalid or expired");
+        }
+    }
 }
