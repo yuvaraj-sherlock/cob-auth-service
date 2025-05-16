@@ -1,6 +1,7 @@
 package com.cob.service;
 
 import com.cob.entity.UserEntity;
+import com.cob.exception.DuplicateResourceException;
 import com.cob.exception.UserNotFoundException;
 import com.cob.mapper.UserMapper;
 import com.cob.model.TokenDetails;
@@ -29,7 +30,12 @@ public class AuthService {
     }
 
     public UserDto registerUser(UserDto userDto) {
-       UserEntity userEntity = userRepository.save(userMapper.toEntity(userDto));
+        UserEntity userEntity = userRepository.findByUserName(userDto.getUserName());
+        if (userEntity == null) {
+            userEntity = userRepository.save(userMapper.toEntity(userDto));
+        }else{
+            throw new DuplicateResourceException("UserName '" + userDto.getUserName() + "' already exists");
+        }
        return userMapper.toDto(userEntity);
     }
 
