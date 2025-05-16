@@ -1,5 +1,6 @@
 package com.cob.util;
 
+import com.cob.model.TokenDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -25,11 +26,19 @@ public class JwtUtil {
                 .compact();
     }
 
-    public Claims extractClaims(String token) {
+    private Claims extractClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+    public TokenDetails getTokenDetails(String token) {
+        Claims claims = extractClaims(token);
+        TokenDetails tokenDetails = new TokenDetails();
+        tokenDetails.setToken(token);
+        tokenDetails.setIssuer(claims.getIssuer());
+        tokenDetails.setExpireAt(claims.getExpiration());
+        return tokenDetails;
     }
 }

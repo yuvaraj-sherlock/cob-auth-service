@@ -35,12 +35,7 @@ public class AuthService {
 
     public TokenDetails generateTokenDetails(UserDto userDto) {
         String token = jwtUtil.generateToken(userDto.getUserName());
-        Claims claims = jwtUtil.extractClaims(token);
-        TokenDetails tokenDetails = new TokenDetails();
-        tokenDetails.setToken(token);
-        tokenDetails.setIssuer(claims.getIssuer());
-        tokenDetails.setExpireAt(claims.getExpiration());
-        return tokenDetails;
+        return jwtUtil.getTokenDetails(token);
     }
 
     public boolean isValidUser(UserDto userDto) throws UserNotFoundException {
