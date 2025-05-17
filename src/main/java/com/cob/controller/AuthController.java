@@ -4,6 +4,7 @@ import com.cob.exception.UserNotFoundException;
 import com.cob.model.ErrorResponse;
 import com.cob.model.UserDto;
 import com.cob.model.TokenDetails;
+import com.cob.model.ValidationResult;
 import com.cob.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -30,8 +31,9 @@ public class AuthController {
     @PostMapping("/generate-token")
     public ResponseEntity<?> generateToken(@Valid @RequestBody UserDto userDto) throws UserNotFoundException {
         TokenDetails tokenDetails = null;
-        if (authService.isValidUser(userDto)) {
-            tokenDetails = authService.generateTokenDetails(userDto);
+        ValidationResult validUser = authService.isValidUser(userDto);
+        if (validUser.valid()) {
+            tokenDetails = authService.generateTokenDetails(validUser.userDto());
             return ResponseEntity.status(HttpStatus.CREATED).body(tokenDetails);
         }
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(),

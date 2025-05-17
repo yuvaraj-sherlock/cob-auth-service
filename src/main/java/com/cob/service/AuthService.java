@@ -6,6 +6,7 @@ import com.cob.exception.UserNotFoundException;
 import com.cob.mapper.UserMapper;
 import com.cob.model.TokenDetails;
 import com.cob.model.UserDto;
+import com.cob.model.ValidationResult;
 import com.cob.repository.UserRepository;
 import com.cob.util.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -44,12 +45,13 @@ public class AuthService {
         return jwtUtil.getTokenDetails(token);
     }
 
-    public boolean isValidUser(UserDto userDto) throws UserNotFoundException {
+    public ValidationResult isValidUser(UserDto userDto) throws UserNotFoundException {
         UserEntity userEntity = userRepository.findByUserName(userDto.getUserName());
         if (userEntity == null || userEntity.getPassword() == null) {
             throw new UserNotFoundException("User not found!");
         }
-        return passwordEncoder.matches(userDto.getPassword(), userEntity.getPassword());
+        boolean isValid = passwordEncoder.matches(userDto.getPassword(), userEntity.getPassword());
+        return new ValidationResult(isValid,userMapper.toDto(userEntity));
     }
 
     public boolean validateToken(String token) {
