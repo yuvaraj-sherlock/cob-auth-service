@@ -92,3 +92,11 @@
       ```
 
 ---
+### 7. Record use-case
+> ✅ **Use Case:** When a method needs to return multiple values (e.g., a boolean and a custom object), use a `record` to wrap them together cleanly.
+
+> 🔄 **Solution:** Define a `record` (e.g., `ValidationResult(boolean valid, UserDto userDto)`) to encapsulate the response.
+
+> 🧼 **Benefit:** Records are immutable, concise, and reduce boilerplate — perfect for returning structured data from service methods.
+
+---
