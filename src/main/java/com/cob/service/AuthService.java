@@ -9,7 +9,6 @@ import com.cob.model.UserDto;
 import com.cob.model.ValidationResult;
 import com.cob.repository.UserRepository;
 import com.cob.util.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
