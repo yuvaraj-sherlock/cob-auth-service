@@ -9,7 +9,6 @@ import com.cob.model.UserDto;
 import com.cob.model.ValidationResult;
 import com.cob.repository.UserRepository;
 import com.cob.util.JwtUtil;
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,14 +19,13 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
-    public AuthService(JwtUtil jwtUtil, UserRepository userRepository, UserMapper userMapper) {
+    public AuthService(JwtUtil jwtUtil, UserRepository userRepository, UserMapper userMapper, BCryptPasswordEncoder passwordEncoder) {
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserDto registerUser(UserDto userDto) {
