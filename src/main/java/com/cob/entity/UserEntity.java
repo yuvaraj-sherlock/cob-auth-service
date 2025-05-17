@@ -25,6 +25,8 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
+    private String role; // ROLE_USER or ROLE_ADMIN
+
     private LocalDateTime createdAt;
 
     @PrePersist

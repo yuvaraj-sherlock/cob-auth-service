@@ -9,4 +9,5 @@ public class TokenDetails {
     private String token;
     private Date expireAt;
     private String issuer;
+    private String role;
 }

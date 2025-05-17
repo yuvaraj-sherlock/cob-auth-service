@@ -16,12 +16,14 @@ public class UserMapper {
         return UserDto.builder()
                 .userName(userEntity.getUserName())
                 .password(userEntity.getPassword())
+                .role(userEntity.getRole())
                 .build();
     }
     public UserEntity toEntity(UserDto userDto){
         return UserEntity.builder()
                 .userName(userDto.getUserName())
                 .password(passwordEncoder.encode(userDto.getPassword()))
+                .role(userDto.getRole())
                 .build();
     }
 }

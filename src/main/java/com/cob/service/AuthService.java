@@ -40,7 +40,7 @@ public class AuthService {
     }
 
     public TokenDetails generateTokenDetails(UserDto userDto) {
-        String token = jwtUtil.generateToken(userDto.getUserName());
+        String token = jwtUtil.generateToken(userDto);
         return jwtUtil.getTokenDetails(token);
     }
 

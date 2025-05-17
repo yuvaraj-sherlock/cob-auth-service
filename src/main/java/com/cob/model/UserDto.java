@@ -19,4 +19,6 @@ public class UserDto {
     @NotNull(message = "Password should not be null")
     @NotEmpty(message = "Password should not be empty")
     private String password;
+
+    private String role;
 }
