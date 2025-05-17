@@ -30,6 +30,7 @@ public class AuthService {
     public UserDto registerUser(UserDto userDto) {
         UserEntity userEntity = userRepository.findByUserName(userDto.getUserName());
         if (userEntity == null) {
+            userDto = assignUserRole(userDto);
             userEntity = userRepository.save(userMapper.toEntity(userDto));
         }else{
             throw new DuplicateResourceException("UserName '" + userDto.getUserName() + "' already exists");
@@ -53,5 +54,14 @@ public class AuthService {
 
     public boolean validateToken(String token) {
         return jwtUtil.validateToken(token);
+    }
+
+    private UserDto assignUserRole(UserDto userDto){
+        String role = "ROLE_USER"; // default
+        if ("ADMIN-2024-SECRET".equals(userDto.getAdminSecretCode())) {
+            role = "ROLE_ADMIN";
+        }
+        userDto.setRole(role);
+        return userDto;
     }
 }

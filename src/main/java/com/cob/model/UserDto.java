@@ -21,4 +21,6 @@ public class UserDto extends com.lib.token.cob.model.UserDto {
     private String password;
 
     private String role;
+
+    private String adminSecretCode;
 }
