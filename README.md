@@ -1,4 +1,4 @@
-# cob-portal
+# cob-auth-service
 # JWT Token Generation - Initial Setup
 
 This module provides a basic foundation for working with JWT (JSON Web Tokens) in a Spring Boot application. It includes utilities for generating tokens and extracting claims, along with a REST API endpoint to test token generation.
