@@ -4,11 +4,11 @@ import com.cob.entity.UserEntity;
 import com.cob.exception.DuplicateResourceException;
 import com.cob.exception.UserNotFoundException;
 import com.cob.mapper.UserMapper;
-import com.cob.model.TokenDetails;
 import com.cob.model.UserDto;
 import com.cob.model.ValidationResult;
 import com.cob.repository.UserRepository;
-import com.cob.util.JwtUtil;
+import com.lib.token.cob.model.TokenDetails;
+import com.lib.token.cob.util.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

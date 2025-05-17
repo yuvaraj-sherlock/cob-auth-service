@@ -2,10 +2,10 @@ package com.cob.controller;
 
 import com.cob.exception.UserNotFoundException;
 import com.cob.model.ErrorResponse;
-import com.cob.model.TokenDetails;
 import com.cob.model.UserDto;
 import com.cob.model.ValidationResult;
 import com.cob.service.AuthService;
+import com.lib.token.cob.model.TokenDetails;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
