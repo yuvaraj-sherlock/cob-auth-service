@@ -4,7 +4,9 @@ import com.cob.exception.UserNotFoundException;
 import com.cob.model.ErrorResponse;
 import com.cob.model.UserDto;
 import com.cob.model.ValidationResult;
+import com.cob.model.Views;
 import com.cob.service.AuthService;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.lib.token.cob.model.TokenDetails;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,7 +24,8 @@ public class AuthController {
     }
 
     @PostMapping("/register-user")
-    public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userDto){
+    @JsonView(Views.Response.class)
+    public ResponseEntity<UserDto> registerUser(@RequestBody @Valid @JsonView(Views.Request.class) UserDto userDto) {
         UserDto response = authService.registerUser(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
