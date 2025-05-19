@@ -7,6 +7,7 @@ import com.cob.mapper.UserMapper;
 import com.cob.model.UserDto;
 import com.cob.model.ValidationResult;
 import com.cob.repository.UserRepository;
+import com.cob.util.TokenBlacklist;
 import com.lib.token.cob.model.TokenDetails;
 import com.lib.token.cob.util.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -53,7 +54,7 @@ public class AuthService {
     }
 
     public boolean validateToken(String token) {
-        return jwtUtil.validateToken(token);
+        return !TokenBlacklist.isBlacklisted(token) && jwtUtil.validateToken(token);
     }
 
     private UserDto assignUserRole(UserDto userDto){
@@ -63,5 +64,9 @@ public class AuthService {
         }
         userDto.setRole(role);
         return userDto;
+    }
+
+    public void blacklistToken(String token) {
+        TokenBlacklist.blacklistToken(token);
     }
 }

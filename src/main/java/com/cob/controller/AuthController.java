@@ -59,4 +59,15 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token is invalid or expired");
         }
     }
+
+    @PostMapping("token-blacklist")
+    public ResponseEntity<?> revokeToken(@RequestHeader("Authorization") String authHeader){
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Missing or invalid Authorization header");
+        }
+        String token = authHeader.substring(7).trim();// remove "Bearer " and trim spaces
+        authService.blacklistToken(token);
+        return ResponseEntity.ok("Token blacklisted successfully");
+    }
 }
