@@ -9,12 +9,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 public class AuthConfig {
 
-    @Value("${jwt.secret}")
-    private String jwtSecret;
+    private final String SECRET_KEY = System.getenv("JWT_SECRET");
 
     @Bean
     public JwtUtil jwtUtil(){
-        return new JwtUtil(jwtSecret);
+        if (SECRET_KEY == null || SECRET_KEY.isEmpty()) {
+            throw new RuntimeException("Missing required environment variable: JWT_SECRET");
+        }
+        return new JwtUtil(SECRET_KEY);
     }
 
     @Bean
