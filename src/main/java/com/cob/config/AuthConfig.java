@@ -1,7 +1,6 @@
 package com.cob.config;
 
 import com.lib.token.cob.util.JwtUtil;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,7 +15,7 @@ public class AuthConfig {
         if (SECRET_KEY == null || SECRET_KEY.isEmpty()) {
             throw new RuntimeException("Missing required environment variable: JWT_SECRET");
         }
-        return new JwtUtil(SECRET_KEY);
+        return new JwtUtil(SECRET_KEY, 3600000L); // 1 hour expiry in milliseconds(SECRET_KEY);
     }
 
     @Bean
